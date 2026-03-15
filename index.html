@@ -180,9 +180,12 @@
       transform-origin: left center;
     }
 
-    .poem-line.slot-0 { top: 2%; }
-    .poem-line.slot-1 { top: 34%; }
-    .poem-line.slot-2 { top: 66%; }
+    .poem-wrap.count-1 .poem-line.slot-0 { top: 30%; }
+    .poem-wrap.count-2 .poem-line.slot-0 { top: 18%; }
+    .poem-wrap.count-2 .poem-line.slot-1 { top: 54%; }
+    .poem-wrap.count-3 .poem-line.slot-0 { top: 2%; }
+    .poem-wrap.count-3 .poem-line.slot-1 { top: 34%; }
+    .poem-wrap.count-3 .poem-line.slot-2 { top: 66%; }
 
     .poem-line.indent-0 { margin-left: 0; }
     .poem-line.indent-1 { margin-left: clamp(16px, 5vw, 64px); }
@@ -336,9 +339,12 @@
         min-height: clamp(116px, 18vh, 168px);
       }
 
-      .poem-line.slot-0 { top: 2%; }
-      .poem-line.slot-1 { top: 35%; }
-      .poem-line.slot-2 { top: 68%; }
+      .poem-wrap.count-1 .poem-line.slot-0 { top: 26%; }
+      .poem-wrap.count-2 .poem-line.slot-0 { top: 16%; }
+      .poem-wrap.count-2 .poem-line.slot-1 { top: 54%; }
+      .poem-wrap.count-3 .poem-line.slot-0 { top: 2%; }
+      .poem-wrap.count-3 .poem-line.slot-1 { top: 35%; }
+      .poem-wrap.count-3 .poem-line.slot-2 { top: 68%; }
 
       .poem-line.indent-1 { margin-left: clamp(12px, 5vw, 28px); }
       .poem-line.indent-2 { margin-left: clamp(20px, 9vw, 48px); }
@@ -390,37 +396,32 @@
       pageData: [
         {
           lines: [
-            "今天的风很轻，我第一个想到的人是你。",
-            "像晚霞落进云里那样，温柔又安静。",
-            "所以我悄悄做了这个小页面，想让你看到。"
+            "2020年，我就已经喜欢上你了。高三分班以后，我开始想办法靠近你。那时候的我不太懂得怎么表达喜欢，现在想想，好像直到今天，我还是不擅长浪漫。"
           ]
         },
         {
           lines: [
-            "不是突然心动，是很多个瞬间慢慢叠在一起。",
-            "是看到有趣的东西，会下意识想分享给你。",
-            "也是每次聊天结束后，都会偷偷期待下一次。"
+            "曾经我对你的喜欢是热烈的。我喜欢你的性格，喜欢和你有关的许多细节。时间过去了很久，它带走了一些冲动，却没有带走这份喜欢。如今留下来的，更像是一种平静而认真的在意。"
           ]
         },
         {
           lines: [
-            "你像一束不喧哗的光。",
-            "不必特别耀眼，也已经让周围的一切柔软下来。",
-            "很多平常的日子，因为想到你，就开始有了亮度。"
+            "你像一束不喧哗的光，不必特别耀眼，也已经让周围的一切慢慢柔软下来。很多原本平常的日子，只要想到你，也会多一点亮度。"
           ]
         },
         {
           lines: [
-            "所以我想认真地问你一次。",
-            "接下来的日子，我想和你分享更多傍晚、晚风和小确幸。",
-            "如果可以，我希望站到离你更近一点的位置。"
+            "你的很多话、很多举动，都会在不知不觉间牵动我的情绪。即使相隔很远，我也还是会常常想起你。那种想念并不喧闹，却一直都在。"
           ]
         },
         {
           lines: [
-            "不用急着回答，我只是想把真心认真地交给你。",
-            "可如果此刻刚好有答案，我会很开心地收下。",
-            "你愿意，和我一起继续往前走吗？"
+            "我想，我已经认真地等待了很久。接下来的日子里，如果可以，我希望自己能站到离你更近一点的位置，也更自然地参与到你的生活里。"
+          ]
+        },
+        {
+          lines: [
+            "所以，我想认真地再问你一次：你愿意和我一起，继续往前走吗？"
           ],
           isFinal: true
         }
@@ -458,13 +459,15 @@
         pageEl.className = `page ${index === state.currentPage ? "active" : ""}`;
         pageEl.dataset.index = String(index);
 
+        const lineCount = Math.max(1, Math.min((page.lines || []).length, 3));
         const linesHtml = (page.lines || [])
+          .slice(0, 3)
           .map((_, i) => `<div class="poem-line slot-${i} indent-${i % 4}" data-line-index="${i}"></div>`)
           .join("");
 
         pageEl.innerHTML = `
           <div class="message-stage">
-            <div class="poem-wrap" data-poem-wrap>${linesHtml}</div>
+            <div class="poem-wrap count-${lineCount}" data-poem-wrap>${linesHtml}</div>
             ${page.isFinal ? `
               <div class="choice-wrap" data-choice-wrap>
                 <button class="choice-btn primary" data-choice="愿意">愿意</button>
@@ -560,7 +563,7 @@
       await dissolveWholePage(pageEl, token);
 
       if (CONFIG.autoPlay && token === state.pageToken && state.currentPage < CONFIG.pageData.length - 1) {
-        goToPage(state.currentPage + 1, { manual: false });
+        goToPage(state.currentPage + 1);
       }
     }
 
