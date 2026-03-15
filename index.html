@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>给你的温柔小页面</title>
+  <title>To_AgCu</title>
   <style>
     :root {
       --bg-1: #fff8fc;
@@ -472,8 +472,8 @@
         {
           lines: [
             "所以，我想认真地再问你一次：",
-            "你愿意和我一起，",
-            "继续往前走吗？"
+            "你愿意做我女朋友，",
+            "一起继续向前吗？"
           ],
           isFinal: true
         }
@@ -669,41 +669,83 @@
       const pageEl = getPageEl(state.currentPage);
       const statusEl = pageEl?.querySelector('[data-status]');
       if (!statusEl) return;
-
-      statusEl.textContent = '正在把你的答案送出去…';
-
+    
+      statusEl.textContent = '正在把你的答案送出去…给我最后5秒…';
+    
       if (!CONFIG.NOTIFY_ENDPOINT) {
         statusEl.textContent = `你点击了“${choice}”。当前还没填通知接口地址，所以暂时只在页面里记录结果。`;
         console.log('[Choice captured locally]', choice);
         state.lastChoice = choice;
         return;
       }
-
+    
       const payload = {
         choice,
         pageTitle: document.title,
         time: new Date().toISOString(),
-        userAgent: navigator.userAgent,
+        userAgent: navigator.userAgent || 'unknown',
         lang: navigator.language || 'unknown',
         screen: `${window.screen.width}x${window.screen.height}`,
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown'
       };
-
+    
       try {
-        await postChoicePayload(payload);
+        // 先走正常 POST
+        const response = await fetch(CONFIG.NOTIFY_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          keepalive: true,
+          mode: 'cors',
+          cache: 'no-store'
+        });
+    
+        const text = await response.text();
+        console.log('Worker response:', response.status, text);
+    
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${text}`);
+        }
+    
         statusEl.textContent = `已收到，你的选择是“${choice}”。`;
         state.lastChoice = choice;
-      } catch (error) {
-        console.error('fetch failed, try beacon:', error);
-        const beaconOk = beaconChoicePayload(payload);
-        if (beaconOk) {
+        return;
+      } catch (postError) {
+        console.warn('POST failed, try GET fallback:', postError);
+    
+        try {
+          // 手机端兜底：走 GET fallback，避免某些移动端对 POST JSON 不稳定
+          const url = new URL(CONFIG.NOTIFY_ENDPOINT);
+          url.searchParams.set('choice', payload.choice);
+          url.searchParams.set('pageTitle', payload.pageTitle);
+          url.searchParams.set('time', payload.time);
+          url.searchParams.set('userAgent', payload.userAgent);
+          url.searchParams.set('lang', payload.lang);
+          url.searchParams.set('screen', payload.screen);
+          url.searchParams.set('timezone', payload.timezone);
+          url.searchParams.set('transport', 'get-fallback');
+    
+          const fallbackResp = await fetch(url.toString(), {
+            method: 'GET',
+            mode: 'cors',
+            cache: 'no-store'
+          });
+    
+          const fallbackText = await fallbackResp.text();
+          console.log('Worker fallback response:', fallbackResp.status, fallbackText);
+    
+          if (!fallbackResp.ok) {
+            throw new Error(`Fallback HTTP ${fallbackResp.status}: ${fallbackText}`);
+          }
+    
           statusEl.textContent = `已收到，你的选择是“${choice}”。`;
           state.lastChoice = choice;
           return;
+        } catch (fallbackError) {
+          console.error(fallbackError);
+          statusEl.textContent = `选择已记录为“${choice}”，但通知发送失败了。请检查外部接口是否可用。`;
+          state.lastChoice = choice;
         }
-
-        statusEl.textContent = `选择已记录为“${choice}”，但通知发送失败了。请检查外部接口是否可用。`;
-        state.lastChoice = choice;
       }
     }
 
