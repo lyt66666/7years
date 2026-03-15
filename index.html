@@ -597,16 +597,16 @@
       const pageEl = getPageEl(state.currentPage);
       const statusEl = pageEl?.querySelector('[data-status]');
       if (!statusEl) return;
-
+    
       statusEl.textContent = '正在把你的答案送出去…';
-
-      if (!CONFIG.NOTIFY_ENDPOINT || CONFIG.NOTIFY_ENDPOINT.includes('https://message.1563943900.workers.dev/')) {
+    
+      if (!CONFIG.NOTIFY_ENDPOINT) {
         statusEl.textContent = `你点击了“${choice}”。当前还没填通知接口地址，所以暂时只在页面里记录结果。`;
         console.log('[Choice captured locally]', choice);
         state.lastChoice = choice;
         return;
       }
-
+    
       try {
         const payload = {
           choice,
@@ -617,14 +617,18 @@
           screen: `${window.screen.width}x${window.screen.height}`,
           timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown'
         };
-
+    
         const response = await fetch(CONFIG.NOTIFY_ENDPOINT, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    
+        const result = await response.text();
+        console.log('Worker response:', response.status, result);
+    
+        if (!response.ok) throw new Error(`HTTP ${response.status}: ${result}`);
+    
         statusEl.textContent = `已收到，你的选择是“${choice}”。`;
         state.lastChoice = choice;
       } catch (error) {
