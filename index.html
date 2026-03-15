@@ -159,28 +159,30 @@
     .poem-wrap {
       position: relative;
       width: 100%;
-      height: clamp(300px, 47vh, 430px);
+      height: clamp(380px, 58vh, 560px);
       flex: 0 0 auto;
     }
 
     .poem-line {
       position: absolute;
       left: 0;
-      width: fit-content;
-      max-width: min(100%, 820px);
+      width: min(88%, 820px);
+      max-width: min(88%, 820px);
+      min-height: clamp(112px, 16vh, 154px);
+      padding-right: 8px;
       font-size: clamp(28px, 4.3vw, 52px);
-      line-height: 1.52;
+      line-height: 1.56;
       letter-spacing: 0.02em;
       color: rgba(123, 91, 105, 0.96);
       text-wrap: pretty;
+      word-break: break-word;
       filter: drop-shadow(0 8px 26px rgba(214, 140, 171, 0.08));
       transform-origin: left center;
-      min-height: 1.52em;
     }
 
-    .poem-line.slot-0 { top: 8%; }
-    .poem-line.slot-1 { top: 38%; }
-    .poem-line.slot-2 { top: 68%; }
+    .poem-line.slot-0 { top: 2%; }
+    .poem-line.slot-1 { top: 34%; }
+    .poem-line.slot-2 { top: 66%; }
 
     .poem-line.indent-0 { margin-left: 0; }
     .poem-line.indent-1 { margin-left: clamp(16px, 5vw, 64px); }
@@ -206,53 +208,15 @@
     }
 
     .char.page-fade {
-      animation: charPageFade 0.34s ease forwards;
+      animation: charPageFade var(--fade-dur, 520ms) cubic-bezier(.22,.82,.24,1) forwards;
+      animation-delay: var(--fade-delay, 0ms);
     }
 
     @keyframes charPageFade {
       to {
         opacity: 0;
-        filter: blur(6px);
-        transform: translateY(-2px) rotate(var(--r, 0deg)) scale(0.9);
-      }
-    }
-
-    .page-particles {
-      position: absolute;
-      inset: 0;
-      overflow: visible;
-      pointer-events: none;
-      z-index: 9;
-    }
-
-    .particle {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: var(--size, 6px);
-      height: var(--size, 6px);
-      margin-left: calc(var(--size, 6px) * -0.5);
-      margin-top: calc(var(--size, 6px) * -0.5);
-      border-radius: 999px;
-      background: radial-gradient(circle, rgba(255,255,255,0.95) 0%, rgba(232,167,193,0.88) 42%, rgba(215,139,170,0.18) 100%);
-      opacity: 0;
-      box-shadow: 0 0 10px rgba(232, 167, 193, 0.28);
-      animation: particleBurst var(--dur, 1200ms) cubic-bezier(.12,.82,.2,1) forwards;
-      animation-delay: var(--delay, 0ms);
-      transform: translate3d(0, 0, 0) scale(0.75);
-    }
-
-    @keyframes particleBurst {
-      0% {
-        opacity: 0;
-        transform: translate3d(0, 0, 0) scale(0.6);
-        filter: blur(0);
-      }
-      10% { opacity: 1; }
-      100% {
-        opacity: 0;
-        transform: translate3d(var(--dx, 0px), var(--dy, 0px), 0) scale(var(--scale, 1.55));
-        filter: blur(3px);
+        filter: blur(5px);
+        transform: translate(var(--fade-x, 0px), var(--fade-y, -10px)) rotate(calc(var(--r, 0deg) + var(--fade-rot, 0deg))) scale(0.92);
       }
     }
 
@@ -361,18 +325,20 @@
       }
 
       .poem-wrap {
-        height: clamp(260px, 40vh, 360px);
+        height: clamp(410px, 58vh, 560px);
       }
 
       .poem-line {
         font-size: clamp(24px, 7vw, 34px);
-        line-height: 1.62;
-        max-width: calc(100% - 8px);
+        line-height: 1.64;
+        width: min(90%, calc(100% - 6px));
+        max-width: min(90%, calc(100% - 6px));
+        min-height: clamp(116px, 18vh, 168px);
       }
 
-      .poem-line.slot-0 { top: 7%; }
-      .poem-line.slot-1 { top: 38%; }
-      .poem-line.slot-2 { top: 69%; }
+      .poem-line.slot-0 { top: 2%; }
+      .poem-line.slot-1 { top: 35%; }
+      .poem-line.slot-2 { top: 68%; }
 
       .poem-line.indent-1 { margin-left: clamp(12px, 5vw, 28px); }
       .poem-line.indent-2 { margin-left: clamp(20px, 9vw, 48px); }
@@ -416,11 +382,9 @@
   <script>
     const CONFIG = {
       autoPlay: true,
-      autoAdvanceDelay: 900,
-      lineHoldMs: 1300,
-      lineAppearGap: 260,
-      particleDurationMs: 1320,
-      pageFadeLeadMs: 160,
+      lineHoldMs: 1500,
+      lineAppearGap: 60,
+      pageFadeDurationMs: 560,
       petalIntervalMs: 1500,
       NOTIFY_ENDPOINT: "https://your-worker-or-function.example.com/notify",
       pageData: [
@@ -501,7 +465,6 @@
         pageEl.innerHTML = `
           <div class="message-stage">
             <div class="poem-wrap" data-poem-wrap>${linesHtml}</div>
-            <div class="page-particles" data-particles></div>
             ${page.isFinal ? `
               <div class="choice-wrap" data-choice-wrap>
                 <button class="choice-btn primary" data-choice="愿意">愿意</button>
@@ -545,52 +508,23 @@
       await wait(720 + text.length * 32);
     }
 
-    function spawnParticlesForChars(chars, particleLayer, pageToken) {
-      if (!chars.length || !particleLayer || pageToken !== state.pageToken) return;
-      const layerRect = particleLayer.getBoundingClientRect();
-      const fragment = document.createDocumentFragment();
-
-      chars.forEach((char, charIndex) => {
-        const rect = char.getBoundingClientRect();
-        const centerX = rect.left - layerRect.left + rect.width / 2;
-        const centerY = rect.top - layerRect.top + rect.height / 2;
-        const particleCount = 4;
-
-        for (let i = 0; i < particleCount; i++) {
-          const particle = document.createElement("span");
-          particle.className = "particle";
-          particle.style.left = `${centerX}px`;
-          particle.style.top = `${centerY}px`;
-          particle.style.setProperty("--size", `${randomBetween(4, 8)}px`);
-          particle.style.setProperty("--dx", `${randomBetween(-86, 86)}px`);
-          particle.style.setProperty("--dy", `${randomBetween(-72, 94)}px`);
-          particle.style.setProperty("--scale", `${randomBetween(0.8, 1.9)}`);
-          particle.style.setProperty("--dur", `${randomBetween(CONFIG.particleDurationMs - 180, CONFIG.particleDurationMs + 180)}ms`);
-          particle.style.setProperty("--delay", `${randomBetween(0, 180) + (charIndex % 6) * 10}ms`);
-          fragment.appendChild(particle);
-        }
-      });
-
-      particleLayer.appendChild(fragment);
-      particleLayer.querySelectorAll(".particle").forEach((particle) => {
-        particle.addEventListener("animationend", () => particle.remove(), { once: true });
-      });
-    }
-
     async function dissolveWholePage(pageEl, token) {
       if (!pageEl || token !== state.pageToken) return;
-      const particleLayer = pageEl.querySelector("[data-particles]");
       const chars = [...pageEl.querySelectorAll(".poem-line .char")];
       if (!chars.length) return;
 
-      spawnParticlesForChars(chars, particleLayer, token);
-      await wait(CONFIG.pageFadeLeadMs);
-      if (token !== state.pageToken) return;
-      chars.forEach((char) => char.classList.add("page-fade"));
-      await wait(CONFIG.particleDurationMs + 260);
+      chars.forEach((char, index) => {
+        char.style.setProperty("--fade-x", `${randomBetween(-10, 10)}px`);
+        char.style.setProperty("--fade-y", `${randomBetween(-16, 8)}px`);
+        char.style.setProperty("--fade-rot", `${randomBetween(-10, 10)}deg`);
+        char.style.setProperty("--fade-dur", `${randomBetween(CONFIG.pageFadeDurationMs - 80, CONFIG.pageFadeDurationMs + 120)}ms`);
+        char.style.setProperty("--fade-delay", `${(index % 8) * 18}ms`);
+        char.classList.add("page-fade");
+      });
+
+      await wait(CONFIG.pageFadeDurationMs + 180);
       if (token !== state.pageToken) return;
       pageEl.querySelectorAll(".poem-line").forEach((line) => { line.innerHTML = ""; });
-      if (particleLayer) particleLayer.innerHTML = "";
     }
 
     async function playPage(index) {
@@ -600,12 +534,10 @@
       if (!pageEl) return;
 
       const lineEls = [...pageEl.querySelectorAll(".poem-line")];
-      const particleLayer = pageEl.querySelector("[data-particles]");
       const choiceWrap = pageEl.querySelector("[data-choice-wrap]");
       const statusEl = pageEl.querySelector("[data-status]");
 
       lineEls.forEach((el) => { el.innerHTML = ""; });
-      if (particleLayer) particleLayer.innerHTML = "";
       if (choiceWrap) choiceWrap.classList.remove("show");
       if (statusEl) statusEl.textContent = "";
 
@@ -613,13 +545,12 @@
         if (token !== state.pageToken) return;
         await showLine(lineEls[i], page.lines[i], token);
         if (token !== state.pageToken) return;
+        await wait(CONFIG.lineHoldMs);
+        if (token !== state.pageToken) return;
         if (i < page.lines.length - 1) {
           await wait(CONFIG.lineAppearGap);
         }
       }
-
-      if (token !== state.pageToken) return;
-      await wait(CONFIG.lineHoldMs);
 
       if (page.isFinal) {
         if (choiceWrap) choiceWrap.classList.add("show");
@@ -627,7 +558,6 @@
       }
 
       await dissolveWholePage(pageEl, token);
-      await wait(CONFIG.autoAdvanceDelay);
 
       if (CONFIG.autoPlay && token === state.pageToken && state.currentPage < CONFIG.pageData.length - 1) {
         goToPage(state.currentPage + 1, { manual: false });
