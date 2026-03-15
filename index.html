@@ -388,7 +388,7 @@
       pageFadeDurationMs: 760,
       pageGapMs: 2000,
       petalIntervalMs: 1500,
-      NOTIFY_ENDPOINT: "https://your-worker-or-function.example.com/notify",
+      NOTIFY_ENDPOINT: "https://message.1563943900.workers.dev/",
       pageData: [
         {
           lines: [
@@ -600,7 +600,7 @@
 
       statusEl.textContent = '正在把你的答案送出去…';
 
-      if (!CONFIG.NOTIFY_ENDPOINT || CONFIG.NOTIFY_ENDPOINT.includes('your-worker-or-function.example.com')) {
+      if (!CONFIG.NOTIFY_ENDPOINT || CONFIG.NOTIFY_ENDPOINT.includes('https://message.1563943900.workers.dev/')) {
         statusEl.textContent = `你点击了“${choice}”。当前还没填通知接口地址，所以暂时只在页面里记录结果。`;
         console.log('[Choice captured locally]', choice);
         state.lastChoice = choice;
