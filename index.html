@@ -119,8 +119,8 @@
 
     .stage-shell {
       position: relative;
-      width: min(1080px, 100%);
-      min-height: min(82dvh, 780px);
+      width: min(1120px, 100%);
+      min-height: min(84dvh, 820px);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -148,8 +148,8 @@
 
     .message-stage {
       position: relative;
-      width: min(860px, 100%);
-      min-height: clamp(420px, 72vh, 660px);
+      width: min(920px, 100%);
+      min-height: clamp(460px, 74vh, 700px);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -159,20 +159,20 @@
     .poem-wrap {
       position: relative;
       width: 100%;
-      height: clamp(380px, 58vh, 560px);
+      height: clamp(430px, 62vh, 610px);
       flex: 0 0 auto;
     }
 
     .poem-line {
       position: absolute;
       left: 0;
-      width: min(88%, 820px);
-      max-width: min(88%, 820px);
-      min-height: clamp(112px, 16vh, 154px);
+      width: min(92%, 900px);
+      max-width: min(92%, 900px);
+      min-height: clamp(126px, 17vh, 170px);
       padding-right: 8px;
-      font-size: clamp(28px, 4.3vw, 52px);
-      line-height: 1.56;
-      letter-spacing: 0.02em;
+      font-size: clamp(24px, 3.75vw, 44px);
+      line-height: 1.62;
+      letter-spacing: 0.018em;
       color: rgba(123, 91, 105, 0.96);
       text-wrap: pretty;
       word-break: break-word;
@@ -180,16 +180,16 @@
       transform-origin: left center;
     }
 
-    .poem-wrap.count-1 .poem-line.slot-0 { top: 30%; }
-    .poem-wrap.count-2 .poem-line.slot-0 { top: 18%; }
-    .poem-wrap.count-2 .poem-line.slot-1 { top: 54%; }
+    .poem-wrap.count-1 .poem-line.slot-0 { top: 28%; }
+    .poem-wrap.count-2 .poem-line.slot-0 { top: 16%; }
+    .poem-wrap.count-2 .poem-line.slot-1 { top: 56%; }
     .poem-wrap.count-3 .poem-line.slot-0 { top: 2%; }
-    .poem-wrap.count-3 .poem-line.slot-1 { top: 34%; }
-    .poem-wrap.count-3 .poem-line.slot-2 { top: 66%; }
+    .poem-wrap.count-3 .poem-line.slot-1 { top: 36%; }
+    .poem-wrap.count-3 .poem-line.slot-2 { top: 70%; }
 
     .poem-line.indent-0 { margin-left: 0; }
     .poem-line.indent-1 { margin-left: clamp(16px, 5vw, 64px); }
-    .poem-line.indent-2 { margin-left: clamp(30px, 9vw, 118px); }
+    .poem-line.indent-2 { margin-left: clamp(32px, 9vw, 120px); }
     .poem-line.indent-3 { margin-left: clamp(18px, 7vw, 86px); }
 
     .char {
@@ -207,19 +207,6 @@
         opacity: 1;
         transform: translateY(0) rotate(var(--r, 0deg)) scale(1);
         filter: blur(0);
-      }
-    }
-
-    .char.page-fade {
-      animation: charPageFade var(--fade-dur, 520ms) cubic-bezier(.22,.82,.24,1) forwards;
-      animation-delay: var(--fade-delay, 0ms);
-    }
-
-    @keyframes charPageFade {
-      to {
-        opacity: 0;
-        filter: blur(5px);
-        transform: translate(var(--fade-x, 0px), var(--fade-y, -10px)) rotate(calc(var(--r, 0deg) + var(--fade-rot, 0deg))) scale(0.92);
       }
     }
 
@@ -321,40 +308,40 @@
       .nav-btn.left { left: max(4px, env(safe-area-inset-left)); }
       .nav-btn.right { right: max(4px, env(safe-area-inset-right)); }
 
-      .stage-shell { min-height: 86dvh; }
+      .stage-shell { min-height: 88dvh; }
 
       .message-stage {
-        min-height: clamp(470px, 76vh, 740px);
+        min-height: clamp(520px, 80vh, 780px);
       }
 
       .poem-wrap {
-        height: clamp(410px, 58vh, 560px);
+        height: clamp(500px, 66vh, 680px);
       }
 
       .poem-line {
-        font-size: clamp(24px, 7vw, 34px);
-        line-height: 1.64;
-        width: min(90%, calc(100% - 6px));
-        max-width: min(90%, calc(100% - 6px));
-        min-height: clamp(116px, 18vh, 168px);
+        font-size: clamp(20px, 5.8vw, 30px);
+        line-height: 1.68;
+        width: min(94%, calc(100% - 4px));
+        max-width: min(94%, calc(100% - 4px));
+        min-height: clamp(136px, 18vh, 190px);
       }
 
       .poem-wrap.count-1 .poem-line.slot-0 { top: 26%; }
-      .poem-wrap.count-2 .poem-line.slot-0 { top: 16%; }
-      .poem-wrap.count-2 .poem-line.slot-1 { top: 54%; }
+      .poem-wrap.count-2 .poem-line.slot-0 { top: 14%; }
+      .poem-wrap.count-2 .poem-line.slot-1 { top: 56%; }
       .poem-wrap.count-3 .poem-line.slot-0 { top: 2%; }
-      .poem-wrap.count-3 .poem-line.slot-1 { top: 35%; }
-      .poem-wrap.count-3 .poem-line.slot-2 { top: 68%; }
+      .poem-wrap.count-3 .poem-line.slot-1 { top: 36%; }
+      .poem-wrap.count-3 .poem-line.slot-2 { top: 72%; }
 
-      .poem-line.indent-1 { margin-left: clamp(12px, 5vw, 28px); }
-      .poem-line.indent-2 { margin-left: clamp(20px, 9vw, 48px); }
-      .poem-line.indent-3 { margin-left: clamp(14px, 7vw, 38px); }
+      .poem-line.indent-1 { margin-left: clamp(10px, 4vw, 24px); }
+      .poem-line.indent-2 { margin-left: clamp(18px, 7vw, 42px); }
+      .poem-line.indent-3 { margin-left: clamp(12px, 6vw, 32px); }
 
       .choice-wrap {
         width: min(320px, 100%);
         grid-template-columns: 1fr;
         gap: 12px;
-        margin-top: 22px;
+        margin-top: 18px;
       }
     }
 
@@ -389,39 +376,52 @@
     const CONFIG = {
       autoPlay: true,
       lineHoldMs: 1500,
-      lineAppearGap: 60,
-      pageFadeDurationMs: 560,
+      lineAppearGap: 80,
+      pageFadeDurationMs: 720,
+      pageGapMs: 2000,
       petalIntervalMs: 1500,
       NOTIFY_ENDPOINT: "https://your-worker-or-function.example.com/notify",
       pageData: [
         {
           lines: [
-            "2020年，我就已经喜欢上你了。高三分班以后，我开始想办法靠近你。那时候的我不太懂得怎么表达喜欢，现在想想，好像直到今天，我还是不擅长浪漫。"
+            "2020年，我就已经喜欢上你了。",
+            "高三分班以后，我开始想办法靠近你。",
+            "那时候的我不太懂得怎么表达喜欢，现在想想，好像直到今天，我还是不擅长浪漫。"
           ]
         },
         {
           lines: [
-            "曾经我对你的喜欢是热烈的。我喜欢你的性格，喜欢和你有关的许多细节。时间过去了很久，它带走了一些冲动，却没有带走这份喜欢。如今留下来的，更像是一种平静而认真的在意。"
+            "曾经我对你的喜欢是热烈的。",
+            "我喜欢你的性格，喜欢和你有关的许多细节。",
+            "时间过去了很久，它带走了一些冲动，却没有带走这份喜欢。如今留下来的，更像是一种平静而认真的在意。"
           ]
         },
         {
           lines: [
-            "你像一束不喧哗的光，不必特别耀眼，也已经让周围的一切慢慢柔软下来。很多原本平常的日子，只要想到你，也会多一点亮度。"
+            "你像一束不喧哗的光，不必特别耀眼。",
+            "也已经让周围的一切慢慢柔软下来。",
+            "很多原本平常的日子，只要想到你，也会多一点亮度。"
           ]
         },
         {
           lines: [
-            "你的很多话、很多举动，都会在不知不觉间牵动我的情绪。即使相隔很远，我也还是会常常想起你。那种想念并不喧闹，却一直都在。"
+            "你的很多话、很多举动，都会在不知不觉间牵动我的情绪。",
+            "即使相隔很远，我也还是会常常想起你。",
+            "那种想念并不喧闹，却一直都在。"
           ]
         },
         {
           lines: [
-            "我想，我已经认真地等待了很久。接下来的日子里，如果可以，我希望自己能站到离你更近一点的位置，也更自然地参与到你的生活里。"
+            "我想，我已经认真地等待了很久。",
+            "接下来的日子里，如果可以。",
+            "我希望自己能站到离你更近一点的位置，也更自然地参与到你的生活里。"
           ]
         },
         {
           lines: [
-            "所以，我想认真地再问你一次：你愿意和我一起，继续往前走吗？"
+            "所以，我想认真地再问你一次：",
+            "你愿意和我一起，",
+            "继续往前走吗？"
           ],
           isFinal: true
         }
@@ -497,8 +497,8 @@
       const span = document.createElement("span");
       span.className = "char";
       span.textContent = char;
-      span.style.setProperty("--r", `${randomBetween(-8, 8).toFixed(2)}deg`);
-      span.style.animationDelay = `${randomBetween(40, 340)}ms`;
+      span.style.setProperty("--r", `${randomBetween(-7, 7).toFixed(2)}deg`);
+      span.style.animationDelay = `${randomBetween(30, 300)}ms`;
       return span;
     }
 
@@ -508,7 +508,7 @@
       [...text].forEach((char) => {
         lineEl.appendChild(createCharSpan(char));
       });
-      await wait(720 + text.length * 32);
+      await wait(760 + text.length * 28);
     }
 
     async function dissolveWholePage(pageEl, token) {
@@ -517,17 +517,20 @@
       if (!chars.length) return;
 
       chars.forEach((char, index) => {
-        char.style.setProperty("--fade-x", `${randomBetween(-10, 10)}px`);
-        char.style.setProperty("--fade-y", `${randomBetween(-16, 8)}px`);
-        char.style.setProperty("--fade-rot", `${randomBetween(-10, 10)}deg`);
-        char.style.setProperty("--fade-dur", `${randomBetween(CONFIG.pageFadeDurationMs - 80, CONFIG.pageFadeDurationMs + 120)}ms`);
-        char.style.setProperty("--fade-delay", `${(index % 8) * 18}ms`);
-        char.classList.add("page-fade");
+        const dx = randomBetween(-8, 8).toFixed(2);
+        const dy = randomBetween(-12, 6).toFixed(2);
+        const rot = randomBetween(-8, 8).toFixed(2);
+        const delay = (index % 10) * 14;
+        const duration = randomBetween(CONFIG.pageFadeDurationMs - 90, CONFIG.pageFadeDurationMs + 50).toFixed(0);
+        char.style.transition = `opacity ${duration}ms ease ${delay}ms, transform ${duration}ms ease ${delay}ms, filter ${duration}ms ease ${delay}ms`;
+        char.style.opacity = '0';
+        char.style.filter = 'blur(4px)';
+        char.style.transform = `translate(${dx}px, ${dy}px) rotate(${rot}deg) scale(0.96)`;
       });
 
-      await wait(CONFIG.pageFadeDurationMs + 180);
+      await wait(CONFIG.pageFadeDurationMs + 220);
       if (token !== state.pageToken) return;
-      pageEl.querySelectorAll(".poem-line").forEach((line) => { line.innerHTML = ""; });
+      pageEl.querySelectorAll('.poem-line').forEach((line) => { line.innerHTML = ''; });
     }
 
     async function playPage(index) {
@@ -536,13 +539,13 @@
       const pageEl = getPageEl(index);
       if (!pageEl) return;
 
-      const lineEls = [...pageEl.querySelectorAll(".poem-line")];
-      const choiceWrap = pageEl.querySelector("[data-choice-wrap]");
-      const statusEl = pageEl.querySelector("[data-status]");
+      const lineEls = [...pageEl.querySelectorAll('.poem-line')];
+      const choiceWrap = pageEl.querySelector('[data-choice-wrap]');
+      const statusEl = pageEl.querySelector('[data-status]');
 
-      lineEls.forEach((el) => { el.innerHTML = ""; });
-      if (choiceWrap) choiceWrap.classList.remove("show");
-      if (statusEl) statusEl.textContent = "";
+      lineEls.forEach((el) => { el.innerHTML = ''; });
+      if (choiceWrap) choiceWrap.classList.remove('show');
+      if (statusEl) statusEl.textContent = '';
 
       for (let i = 0; i < (page.lines || []).length; i++) {
         if (token !== state.pageToken) return;
@@ -556,12 +559,14 @@
       }
 
       if (page.isFinal) {
-        if (choiceWrap) choiceWrap.classList.add("show");
+        if (choiceWrap) choiceWrap.classList.add('show');
         return;
       }
 
       await dissolveWholePage(pageEl, token);
+      if (token !== state.pageToken) return;
 
+      await wait(CONFIG.pageGapMs);
       if (CONFIG.autoPlay && token === state.pageToken && state.currentPage < CONFIG.pageData.length - 1) {
         goToPage(state.currentPage + 1);
       }
@@ -576,14 +581,14 @@
 
     async function notifyChoice(choice) {
       const pageEl = getPageEl(state.currentPage);
-      const statusEl = pageEl?.querySelector("[data-status]");
+      const statusEl = pageEl?.querySelector('[data-status]');
       if (!statusEl) return;
 
-      statusEl.textContent = "正在把你的答案送出去…";
+      statusEl.textContent = '正在把你的答案送出去…';
 
-      if (!CONFIG.NOTIFY_ENDPOINT || CONFIG.NOTIFY_ENDPOINT.includes("your-worker-or-function.example.com")) {
+      if (!CONFIG.NOTIFY_ENDPOINT || CONFIG.NOTIFY_ENDPOINT.includes('your-worker-or-function.example.com')) {
         statusEl.textContent = `你点击了“${choice}”。当前还没填通知接口地址，所以暂时只在页面里记录结果。`;
-        console.log("[Choice captured locally]", choice);
+        console.log('[Choice captured locally]', choice);
         state.lastChoice = choice;
         return;
       }
@@ -594,14 +599,14 @@
           pageTitle: document.title,
           time: new Date().toISOString(),
           userAgent: navigator.userAgent,
-          lang: navigator.language || "unknown",
+          lang: navigator.language || 'unknown',
           screen: `${window.screen.width}x${window.screen.height}`,
-          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "unknown"
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'unknown'
         };
 
         const response = await fetch(CONFIG.NOTIFY_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
@@ -616,16 +621,16 @@
     }
 
     function spawnPetal() {
-      const petal = document.createElement("span");
-      petal.className = "petal";
+      const petal = document.createElement('span');
+      petal.className = 'petal';
       petal.style.left = `${randomBetween(6, 94)}%`;
       petal.style.top = `${randomBetween(-10, 24)}%`;
-      petal.style.setProperty("--rot", `${randomBetween(-30, 30)}deg`);
-      petal.style.setProperty("--drift-x", `${randomBetween(-80, 80)}px`);
-      petal.style.setProperty("--drift-y", `${randomBetween(240, 420)}px`);
+      petal.style.setProperty('--rot', `${randomBetween(-30, 30)}deg`);
+      petal.style.setProperty('--drift-x', `${randomBetween(-80, 80)}px`);
+      petal.style.setProperty('--drift-y', `${randomBetween(240, 420)}px`);
       petal.style.animationDuration = `${randomBetween(5.6, 8.2)}s`;
       stageShell.appendChild(petal);
-      petal.addEventListener("animationend", () => petal.remove(), { once: true });
+      petal.addEventListener('animationend', () => petal.remove(), { once: true });
     }
 
     function startPetals() {
@@ -639,34 +644,34 @@
         clearInterval(state.petalTimer);
         state.petalTimer = null;
       }
-      stageShell.querySelectorAll(".petal").forEach(el => el.remove());
+      stageShell.querySelectorAll('.petal').forEach(el => el.remove());
     }
 
     function bindEvents() {
-      prevBtn.addEventListener("click", () => {
+      prevBtn.addEventListener('click', () => {
         if (state.currentPage > 0) goToPage(state.currentPage - 1);
       });
 
-      nextBtn.addEventListener("click", () => {
+      nextBtn.addEventListener('click', () => {
         if (state.currentPage < CONFIG.pageData.length - 1) goToPage(state.currentPage + 1);
       });
 
-      stageShell.addEventListener("click", (event) => {
-        const btn = event.target.closest("[data-choice]");
+      stageShell.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-choice]');
         if (!btn) return;
-        notifyChoice(btn.getAttribute("data-choice"));
+        notifyChoice(btn.getAttribute('data-choice'));
       });
 
       let touchStartX = 0;
       let touchStartY = 0;
 
-      stageShell.addEventListener("touchstart", (e) => {
+      stageShell.addEventListener('touchstart', (e) => {
         const touch = e.changedTouches[0];
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
       }, { passive: true });
 
-      stageShell.addEventListener("touchend", (e) => {
+      stageShell.addEventListener('touchend', (e) => {
         const touch = e.changedTouches[0];
         const dx = touch.clientX - touchStartX;
         const dy = touch.clientY - touchStartY;
@@ -678,9 +683,9 @@
         }
       }, { passive: true });
 
-      window.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowLeft" && state.currentPage > 0) goToPage(state.currentPage - 1);
-        if (e.key === "ArrowRight" && state.currentPage < CONFIG.pageData.length - 1) goToPage(state.currentPage + 1);
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft' && state.currentPage > 0) goToPage(state.currentPage - 1);
+        if (e.key === 'ArrowRight' && state.currentPage < CONFIG.pageData.length - 1) goToPage(state.currentPage + 1);
       });
     }
 
